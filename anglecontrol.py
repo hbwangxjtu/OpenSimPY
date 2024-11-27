@@ -6,8 +6,16 @@ import numpy as np
 model = osim.Model("./Original Files - UpperExtremityModel/Stanford VA upper limb model_0.osim")
 state = model.initSystem()
 
+muscleset = model.getMuscles()
+for i in range(muscleset.getSize()):
+    current_muscle = muscleset.get(i)
+    current_muscle.setActivation(state, 0.5)
+
 def get_biceps_length_vs_angle(model, state, elv_angle_fixed, shoulder_angle_range):
     
+    elv_coord = model.getCoordinateSet().get("elv_angle")
+    elv_coord.setValue(state, elv_angle_fixed)
+
     # mmuscle list
     muscle_names = [
         "BIClong",  
@@ -18,15 +26,11 @@ def get_biceps_length_vs_angle(model, state, elv_angle_fixed, shoulder_angle_ran
     ]
     
     muscles = {name: model.getMuscles().get(name) for name in muscle_names}
-    # fix elv_angle to 100 degree
-    # elv_coord = model.getCoordinateSet().get("elv_angle")
-    # elv_coord.setValue(state, elv_angle_fixed)
-    
     lengths = {name: [] for name in muscle_names}
     
     for angle in shoulder_angle_range:
         # set shoulder_elv
-        shoulder_coord = model.getCoordinateSet().get("elbow_flexion")
+        shoulder_coord = model.getCoordinateSet().get("shoulder_elv")
         shoulder_coord.setValue(state, angle)
         
         # update state
@@ -55,6 +59,9 @@ muscle_styles = {
     'TRImed': {'color': 'k', 'linestyle': '-', 'label': 'Triceps Medial Head'}
 }
 
+
+shoulder_angle_range = np.degrees(shoulder_angle_range)
+
 for muscle_name, style in muscle_styles.items():
     plt.plot(shoulder_angle_range, 
             lengths[muscle_name], 
@@ -64,7 +71,7 @@ for muscle_name, style in muscle_styles.items():
 
 plt.xlabel('Shoulder Elevation Angle (degrees)')
 plt.ylabel('Muscle Length (m)')
-plt.title('Arm Muscles Length vs. Elbow Flexion Angle')
+plt.title('Arm Muscles Length vs. shoulder Flexion Angle')
 plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.grid(True)
 
