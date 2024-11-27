@@ -2,11 +2,13 @@
 
 ## 1. Introduction
 
-To achieve the python scripting for **OpenSim**, this repository gives an simple example to plot the muscle-tendon lengths changing with the joint variation of joint **shoulder** and **elbow**. In fact, there is a little difference between my results and OpenSim plot. However, the main problem is that the muscle length variations are consistent when the elv_angle is fixed at the 100(deg) in this script. It should be solved in the future.
+This repository provides a simple example of Python scripting for **OpenSim**, demonstrating how to plot **muscle-tendon length** changes in response to variations in shoulder and elbow joint angles. While there are minor discrepancies between my results and OpenSim's built-in plotting functionality, the main focus of this script is on analyzing muscle length variations with a fixed elevation angle of elv_angle.
 
 > The OpenSim model used in this repository comes from "A Model of the Upper Extremity for Simulating Musculoskeletal Surgery and Analyzing Neuromuscular Control." Annals of Biomedical Engineering, 2005. 
 
-anglecontrol.py: fixing the **elv-angle** to **100 deg** and changing the **shoulder-elv** angle within the scope of **[0,180] deg**.
+anglecontrol.py: fixing the **elv-angle** to **100°** and changing the **shoulder-elv** angle within the scope of **[0,180]°**.
+
+Results of Opensim are obtained under a manual Coordinates that the elv_angle are set to 100°.
 
 ## 2. Installation 
 #### 1. Create conda environment
@@ -30,3 +32,4 @@ pip sintall numpy==1.26.0
 
 ### Reference2:
 ![alt text](<./Plotter_OpenSim2.png>)
+
