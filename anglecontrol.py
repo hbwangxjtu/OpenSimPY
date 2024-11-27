@@ -19,14 +19,14 @@ def get_biceps_length_vs_angle(model, state, elv_angle_fixed, shoulder_angle_ran
     
     muscles = {name: model.getMuscles().get(name) for name in muscle_names}
     # fix elv_angle to 100 degree
-    elv_coord = model.getCoordinateSet().get("elv_angle")
-    elv_coord.setValue(state, elv_angle_fixed)
+    # elv_coord = model.getCoordinateSet().get("elv_angle")
+    # elv_coord.setValue(state, elv_angle_fixed)
     
     lengths = {name: [] for name in muscle_names}
     
     for angle in shoulder_angle_range:
         # set shoulder_elv
-        shoulder_coord = model.getCoordinateSet().get("shoulder_elv")
+        shoulder_coord = model.getCoordinateSet().get("elbow_flexion")
         shoulder_coord.setValue(state, angle)
         
         # update state
@@ -41,7 +41,7 @@ def get_biceps_length_vs_angle(model, state, elv_angle_fixed, shoulder_angle_ran
 
 # set parameters
 elv_angle_fixed = 100*np.pi/180
-shoulder_angle_range = np.linspace(0, 180*np.pi/180, 180) 
+shoulder_angle_range = np.linspace(0, 130*np.pi/180, 130) 
 
 lengths = get_biceps_length_vs_angle(model, state, elv_angle_fixed, shoulder_angle_range)
 
@@ -64,7 +64,7 @@ for muscle_name, style in muscle_styles.items():
 
 plt.xlabel('Shoulder Elevation Angle (degrees)')
 plt.ylabel('Muscle Length (m)')
-plt.title('Arm Muscles Length vs. Shoulder Elevation Angle')
+plt.title('Arm Muscles Length vs. Elbow Flexion Angle')
 plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.grid(True)
 
